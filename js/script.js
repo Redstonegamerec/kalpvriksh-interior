@@ -156,6 +156,39 @@
 
     function initAnimations() {
 
+        // ------ Falling Leaves (Tree Essence) ------
+        const leafContainer = document.querySelector('.falling-leaves');
+        if (leafContainer) {
+            const numLeaves = window.innerWidth < 768 ? 10 : 25;
+            for (let i = 0; i < numLeaves; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'leaf';
+                
+                // Randomize starting properties
+                const size = gsap.utils.random(15, 30);
+                gsap.set(leaf, {
+                    x: gsap.utils.random(0, window.innerWidth),
+                    y: gsap.utils.random(-150, -50),
+                    scale: size / 20,
+                    rotation: gsap.utils.random(-180, 180),
+                    opacity: gsap.utils.random(0.2, 0.5)
+                });
+                
+                leafContainer.appendChild(leaf);
+                
+                // Animate leaf falling continuously
+                gsap.to(leaf, {
+                    y: window.innerHeight + 100,
+                    x: `+=${gsap.utils.random(-150, 150)}`,
+                    rotation: `+=${gsap.utils.random(-360, 360)}`,
+                    duration: gsap.utils.random(8, 18),
+                    ease: 'none',
+                    repeat: -1,
+                    delay: gsap.utils.random(0, 10)
+                });
+            }
+        }
+
         // ------ Hero Cinematic Intro ------
         const heroTl = gsap.timeline({ delay: 0.3 });
 
