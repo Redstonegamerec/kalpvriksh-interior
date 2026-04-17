@@ -245,8 +245,8 @@
 
     <!-- ============ PORTFOLIO SECTION ============ -->
     <section id="portfolio" class="portfolio section">
-        <div class="container portfolio-header-container">
-            <div class="section-header text-center">
+        <div class="container">
+            <div class="section-header text-center portfolio-header-anim">
                 <div class="section-label center">
                     <span class="label-line"></span>
                     <span>Our Work</span>
@@ -255,148 +255,248 @@
                 <h2 class="section-title">Curated <em>Portfolio</em></h2>
                 <p class="section-desc">A glimpse into our finest creations — each project a testament to our passion for perfection.</p>
             </div>
-            <div class="portfolio-filters">
-                <button class="filter-btn active" data-filter="all">All Projects</button>
-                <button class="filter-btn" data-filter="living">Living Room</button>
-                <button class="filter-btn" data-filter="bedroom">Bedroom</button>
-                <button class="filter-btn" data-filter="kitchen">Kitchen</button>
-                <button class="filter-btn" data-filter="office">Office</button>
-                <button class="filter-btn" data-filter="bathroom">Bathroom</button>
-                <button class="filter-btn" data-filter="dining">Dining Room</button>
+
+            <!-- Category Filters -->
+            <div class="portfolio-filters" id="portfolio-filters">
+                <button class="filter-btn active" data-filter="all">
+                    <span>All Projects</span>
+                    <span class="filter-count" id="count-all"></span>
+                </button>
+                <button class="filter-btn" data-filter="residential">
+                    <span>Residential</span>
+                    <span class="filter-count" id="count-residential"></span>
+                </button>
+                <button class="filter-btn" data-filter="office">
+                    <span>Office</span>
+                    <span class="filter-count" id="count-office"></span>
+                </button>
+                <button class="filter-btn" data-filter="3d">
+                    <span>3D Designs</span>
+                    <span class="filter-count" id="count-3d"></span>
+                </button>
             </div>
         </div>
-        <div class="portfolio-scroll-wrapper" id="portfolio-scroll-wrapper">
-            <div class="portfolio-track" id="portfolio-track">
-                <div class="portfolio-item" data-category="living">
-                    <div class="portfolio-image-wrapper">
-                        <img src="assets/images/portfolio-living.png" alt="Modern Living Room Design - Vasant Kunj" loading="lazy">
-                        <div class="portfolio-overlay">
-                            <span class="portfolio-category">Living Room</span>
-                            <h3>Modern 3BHK Living</h3>
-                            <p>Vasant Kunj, New Delhi</p>
-                            <button class="portfolio-expand" aria-label="View fullscreen">
+
+        <!-- Bento Grid Gallery -->
+        <div class="container portfolio-grid-container">
+            <div class="portfolio-bento" id="portfolio-bento">
+
+                <!-- Row 1: Featured hero item + 2 stacked -->
+                <div class="pb-item pb-featured" data-category="residential" data-index="0"
+                     data-title="2BHK Interior Design"
+                     data-caption="Modern Style | Vasant Kunj, Delhi"
+                     data-tag="Residential">
+                    <div class="pbi-inner">
+                        <img src="assets/images/portfolio-living.png" alt="Modern Living Room Design" loading="lazy">
+                        <div class="pbi-overlay">
+                            <div class="pbi-info">
+                                <span class="pbi-tag">Living Room</span>
+                                <h3>2BHK Interior Design</h3>
+                                <p>Modern Style | Vasant Kunj, Delhi</p>
+                            </div>
+                            <button class="pbi-expand" aria-label="View fullscreen">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
                             </button>
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item" data-category="bedroom">
-                    <div class="portfolio-image-wrapper">
-                        <img src="assets/images/portfolio-bedroom.png" alt="Luxury Master Bedroom - Golf Links" loading="lazy">
-                        <div class="portfolio-overlay">
-                            <span class="portfolio-category">Bedroom</span>
-                            <h3>Royal Master Suite</h3>
-                            <p>Golf Links, New Delhi</p>
-                            <button class="portfolio-expand" aria-label="View fullscreen">
+
+                <div class="pb-item pb-tall" data-category="residential" data-index="1"
+                     data-title="Royal Master Suite"
+                     data-caption="Luxury Bedroom | Golf Links, Delhi"
+                     data-tag="Bedroom">
+                    <div class="pbi-inner">
+                        <img src="assets/images/portfolio-bedroom.png" alt="Luxury Master Bedroom" loading="lazy">
+                        <div class="pbi-overlay">
+                            <div class="pbi-info">
+                                <span class="pbi-tag">Bedroom</span>
+                                <h3>Royal Master Suite</h3>
+                                <p>Luxury Bedroom | Golf Links, Delhi</p>
+                            </div>
+                            <button class="pbi-expand" aria-label="View fullscreen">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
                             </button>
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item" data-category="kitchen">
-                    <div class="portfolio-image-wrapper">
-                        <img src="assets/images/portfolio-kitchen.png" alt="Premium Modular Kitchen - Greater Kailash" loading="lazy">
-                        <div class="portfolio-overlay">
-                            <span class="portfolio-category">Kitchen</span>
-                            <h3>Island Modular Kitchen</h3>
-                            <p>Greater Kailash, Delhi</p>
-                            <button class="portfolio-expand" aria-label="View fullscreen">
+
+                <div class="pb-item pb-small" data-category="residential" data-index="2"
+                     data-title="Island Modular Kitchen"
+                     data-caption="Contemporary Design | Greater Kailash"
+                     data-tag="Kitchen">
+                    <div class="pbi-inner">
+                        <img src="assets/images/portfolio-kitchen.png" alt="Modular Kitchen" loading="lazy">
+                        <div class="pbi-overlay">
+                            <div class="pbi-info">
+                                <span class="pbi-tag">Kitchen</span>
+                                <h3>Island Modular Kitchen</h3>
+                                <p>Contemporary Design | Greater Kailash</p>
+                            </div>
+                            <button class="pbi-expand" aria-label="View fullscreen">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
                             </button>
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item" data-category="office">
-                    <div class="portfolio-image-wrapper">
-                        <img src="assets/images/portfolio-office.png" alt="Executive Office Interior - Connaught Place" loading="lazy">
-                        <div class="portfolio-overlay">
-                            <span class="portfolio-category">Office</span>
-                            <h3>Executive Corporate Office</h3>
-                            <p>Connaught Place, Delhi</p>
-                            <button class="portfolio-expand" aria-label="View fullscreen">
+
+                <!-- Row 2: 3 equal normal -->
+                <div class="pb-item pb-normal" data-category="office" data-index="3"
+                     data-title="Executive Corporate Office"
+                     data-caption="Office Interior | Minimal Workspace | Connaught Place"
+                     data-tag="Office">
+                    <div class="pbi-inner">
+                        <img src="assets/images/portfolio-office.png" alt="Executive Office Interior" loading="lazy">
+                        <div class="pbi-overlay">
+                            <div class="pbi-info">
+                                <span class="pbi-tag">Office</span>
+                                <h3>Executive Corporate Office</h3>
+                                <p>Minimal Workspace | Connaught Place</p>
+                            </div>
+                            <button class="pbi-expand" aria-label="View fullscreen">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
                             </button>
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item" data-category="bathroom">
-                    <div class="portfolio-image-wrapper">
-                        <img src="assets/images/portfolio-bathroom.png" alt="Luxury Spa Bathroom - Jor Bagh" loading="lazy">
-                        <div class="portfolio-overlay">
-                            <span class="portfolio-category">Bathroom</span>
-                            <h3>Spa-Inspired Bathroom</h3>
-                            <p>Jor Bagh, New Delhi</p>
-                            <button class="portfolio-expand" aria-label="View fullscreen">
+
+                <div class="pb-item pb-wide" data-category="residential" data-index="4"
+                     data-title="Spa-Inspired Bathroom"
+                     data-caption="Luxury Living | Jor Bagh, New Delhi"
+                     data-tag="Bathroom">
+                    <div class="pbi-inner">
+                        <img src="assets/images/portfolio-bathroom.png" alt="Luxury Spa Bathroom" loading="lazy">
+                        <div class="pbi-overlay">
+                            <div class="pbi-info">
+                                <span class="pbi-tag">Bathroom</span>
+                                <h3>Spa-Inspired Bathroom</h3>
+                                <p>Luxury Living | Jor Bagh, New Delhi</p>
+                            </div>
+                            <button class="pbi-expand" aria-label="View fullscreen">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
                             </button>
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item" data-category="living">
-                    <div class="portfolio-image-wrapper">
-                        <img src="assets/images/hero-bg.png" alt="Penthouse Living Room - Lutyens Delhi" loading="lazy">
-                        <div class="portfolio-overlay">
-                            <span class="portfolio-category">Living Room</span>
-                            <h3>Luxury Penthouse</h3>
-                            <p>Lutyens, New Delhi</p>
-                            <button class="portfolio-expand" aria-label="View fullscreen">
+
+                <div class="pb-item pb-normal" data-category="3d" data-index="5"
+                     data-title="Luxury Penthouse"
+                     data-caption="3D Interior Render | Lutyens, New Delhi"
+                     data-tag="3D Design">
+                    <div class="pbi-inner">
+                        <img src="assets/images/hero-bg.png" alt="Penthouse Living Room" loading="lazy">
+                        <div class="pbi-overlay">
+                            <div class="pbi-info">
+                                <span class="pbi-tag">3D Design</span>
+                                <h3>Luxury Penthouse</h3>
+                                <p>3D Interior Render | Lutyens, Delhi</p>
+                            </div>
+                            <button class="pbi-expand" aria-label="View fullscreen">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
                             </button>
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item" data-category="dining">
-                    <div class="portfolio-image-wrapper">
-                        <img src="assets/images/portfolio-dining.png" alt="Luxury Dining Room - Panchsheel Park" loading="lazy">
-                        <div class="portfolio-overlay">
-                            <span class="portfolio-category">Dining Room</span>
-                            <h3>Grand Dining Ensemble</h3>
-                            <p>Panchsheel Park, New Delhi</p>
-                            <button class="portfolio-expand" aria-label="View fullscreen">
+
+                <!-- Row 3: wide + normal -->
+                <div class="pb-item pb-wide" data-category="residential" data-index="6"
+                     data-title="Grand Dining Ensemble"
+                     data-caption="Luxury Living Room | Contemporary Design | Panchsheel Park"
+                     data-tag="Dining Room">
+                    <div class="pbi-inner">
+                        <img src="assets/images/portfolio-dining.png" alt="Luxury Dining Room" loading="lazy">
+                        <div class="pbi-overlay">
+                            <div class="pbi-info">
+                                <span class="pbi-tag">Dining Room</span>
+                                <h3>Grand Dining Ensemble</h3>
+                                <p>Luxury Living Room | Contemporary Design</p>
+                            </div>
+                            <button class="pbi-expand" aria-label="View fullscreen">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
                             </button>
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item" data-category="bedroom">
-                    <div class="portfolio-image-wrapper">
-                        <img src="assets/images/portfolio-kids.png" alt="Luxury Kids Bedroom - Saket" loading="lazy">
-                        <div class="portfolio-overlay">
-                            <span class="portfolio-category">Kids Room</span>
-                            <h3>Whimsical Kids Retreat</h3>
-                            <p>Saket, New Delhi</p>
-                            <button class="portfolio-expand" aria-label="View fullscreen">
+
+                <div class="pb-item pb-normal" data-category="residential" data-index="7"
+                     data-title="Whimsical Kids Retreat"
+                     data-caption="Kids Bedroom | Premium Design | Saket"
+                     data-tag="Kids Room">
+                    <div class="pbi-inner">
+                        <img src="assets/images/portfolio-kids.png" alt="Luxury Kids Bedroom" loading="lazy">
+                        <div class="pbi-overlay">
+                            <div class="pbi-info">
+                                <span class="pbi-tag">Kids Room</span>
+                                <h3>Whimsical Kids Retreat</h3>
+                                <p>Premium Design | Saket, Delhi</p>
+                            </div>
+                            <button class="pbi-expand" aria-label="View fullscreen">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
                             </button>
                         </div>
                     </div>
                 </div>
-                <div class="portfolio-item" data-category="living">
-                    <div class="portfolio-image-wrapper">
-                        <img src="assets/images/about.png" alt="Luxury Pooja Room - South Delhi" loading="lazy">
-                        <div class="portfolio-overlay">
-                            <span class="portfolio-category">Pooja Room</span>
-                            <h3>Sacred Sanctum Design</h3>
-                            <p>South Extension, New Delhi</p>
-                            <button class="portfolio-expand" aria-label="View fullscreen">
+
+                <div class="pb-item pb-normal" data-category="3d" data-index="8"
+                     data-title="Sacred Sanctum Design"
+                     data-caption="3D Pooja Room Render | South Extension, Delhi"
+                     data-tag="3D Design">
+                    <div class="pbi-inner">
+                        <img src="assets/images/about.png" alt="Luxury Pooja Room" loading="lazy">
+                        <div class="pbi-overlay">
+                            <div class="pbi-info">
+                                <span class="pbi-tag">3D Design</span>
+                                <h3>Sacred Sanctum Design</h3>
+                                <p>3D Render | South Extension, Delhi</p>
+                            </div>
+                            <button class="pbi-expand" aria-label="View fullscreen">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
                             </button>
                         </div>
                     </div>
                 </div>
-            </div>
+
+            </div><!-- /.portfolio-bento -->
+        </div><!-- /.portfolio-grid-container -->
+
+        <!-- View All CTA -->
+        <div class="portfolio-cta-wrap">
+            <p class="portfolio-cta-label">Explore all <span id="visible-count">9</span> curated projects</p>
+            <a href="#contact" class="btn btn-outline-gold"><span>Start Your Project</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
         </div>
     </section>
 
-    <!-- ============ FULLSCREEN MODAL ============ -->
-    <div id="portfolio-modal" class="portfolio-modal">
-        <div class="modal-backdrop"></div>
-        <button class="modal-close" id="modal-close" aria-label="Close">
+    <!-- ============ PREMIUM MODAL ============ -->
+    <div id="portfolio-modal" class="portfolio-modal" role="dialog" aria-modal="true" aria-label="Project Gallery">
+        <div class="modal-backdrop" id="modal-backdrop"></div>
+
+        <!-- Close -->
+        <button class="modal-close" id="modal-close" aria-label="Close gallery">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
-        <div class="modal-content">
-            <img id="modal-image" src="" alt="Portfolio Full View">
-            <div class="modal-info" id="modal-info"></div>
+
+        <!-- Counter -->
+        <div class="modal-counter" id="modal-counter">1 / 9</div>
+
+        <!-- Prev / Next -->
+        <button class="modal-nav modal-prev" id="modal-prev" aria-label="Previous project">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </button>
+        <button class="modal-nav modal-next" id="modal-next" aria-label="Next project">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+
+        <!-- Image Stage -->
+        <div class="modal-stage">
+            <div class="modal-img-wrap" id="modal-img-wrap">
+                <img id="modal-image" src="" alt="">
+            </div>
+            <div class="modal-caption" id="modal-caption">
+                <span class="modal-tag" id="modal-tag"></span>
+                <h3 id="modal-title"></h3>
+                <p id="modal-loc"></p>
+            </div>
         </div>
     </div>
 

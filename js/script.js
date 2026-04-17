@@ -372,8 +372,8 @@
             }
         });
 
-        // ------ Portfolio (Horizontal Scroll Pinning) ------
-        gsap.set('.portfolio .section-header', { opacity: 0, y: 50 });
+        // ------ Portfolio Header Reveal ------
+        gsap.set('.portfolio-header-anim', { opacity: 0, y: 50 });
         gsap.set('.portfolio-filters', { opacity: 0, y: 20 });
 
         ScrollTrigger.create({
@@ -381,7 +381,7 @@
             start: 'top 70%',
             once: true,
             onEnter: () => {
-                gsap.to('.portfolio .section-header', {
+                gsap.to('.portfolio-header-anim', {
                     opacity: 1, y: 0,
                     duration: 1.2,
                     ease: 'power3.out'
@@ -390,69 +390,24 @@
                     opacity: 1, y: 0,
                     duration: 0.8,
                     ease: 'power3.out',
-                    delay: 0.2
-                });
-                gsap.from('.portfolio-item', {
-                    opacity: 0,
-                    x: 80,
-                    duration: 1,
-                    stagger: 0.08,
-                    ease: 'power3.out',
-                    delay: 0.5
+                    delay: 0.25
                 });
             }
         });
 
-        // Horizontal scroll for portfolio
-        const portfolioWrapper = document.getElementById('portfolio-scroll-wrapper');
-        const portfolioTrack = document.getElementById('portfolio-track');
-
-        if (portfolioWrapper && portfolioTrack) {
-            // Convert vertical scroll to horizontal scroll for portfolio
-            const totalScrollWidth = portfolioTrack.scrollWidth - portfolioWrapper.clientWidth;
-
-            gsap.to(portfolioTrack, {
-                x: () => -totalScrollWidth,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: portfolioWrapper,
-                    start: 'top 60%',
-                    end: () => `+=${totalScrollWidth}`,
-                    scrub: 1.5,
-                    invalidateOnRefresh: true
-                }
-            });
-
-            // Drag support
-            let isDragging = false;
-            let startX = 0;
-            let scrollLeft = 0;
-
-            portfolioWrapper.addEventListener('mousedown', (e) => {
-                isDragging = true;
-                startX = e.pageX - portfolioWrapper.offsetLeft;
-                scrollLeft = portfolioWrapper.scrollLeft;
-                portfolioWrapper.style.cursor = 'grabbing';
-            });
-
-            portfolioWrapper.addEventListener('mouseup', () => {
-                isDragging = false;
-                portfolioWrapper.style.cursor = 'grab';
-            });
-
-            portfolioWrapper.addEventListener('mouseleave', () => {
-                isDragging = false;
-                portfolioWrapper.style.cursor = 'grab';
-            });
-
-            portfolioWrapper.addEventListener('mousemove', (e) => {
-                if (!isDragging) return;
-                e.preventDefault();
-                const x = e.pageX - portfolioWrapper.offsetLeft;
-                const walk = (x - startX) * 2;
-                portfolioWrapper.scrollLeft = scrollLeft - walk;
-            });
-        }
+        gsap.set('.portfolio-cta-wrap', { opacity: 0, y: 30 });
+        ScrollTrigger.create({
+            trigger: '.portfolio-cta-wrap',
+            start: 'top 88%',
+            once: true,
+            onEnter: () => {
+                gsap.to('.portfolio-cta-wrap', {
+                    opacity: 1, y: 0,
+                    duration: 1,
+                    ease: 'power3.out'
+                });
+            }
+        });
 
         // ------ Why Choose Us ------
         gsap.set('.why-us .section-header', { opacity: 0, y: 50 });
@@ -610,10 +565,32 @@
     }
 
     /* ============================================================
-       5. PORTFOLIO FILTERS
+       5. PORTFOLIO — Bento Grid Filter, Tilt & Parallax
        ============================================================ */
+
+    // -- Build item list for modal navigation --
+    const bentoItems = Array.from(document.querySelectorAll('.pb-item'));
+    let visibleItems = [...bentoItems]; // will update on filter
+    let currentModalIndex = 0;
+
+    // -- Update filter counts --
+    function updateCounts() {
+        const cats = { all: 0, residential: 0, office: 0, '3d': 0 };
+        bentoItems.forEach(item => {
+            const cat = item.getAttribute('data-category');
+            cats.all++;
+            if (cats[cat] !== undefined) cats[cat]++;
+        });
+        const el = (id) => document.getElementById(id);
+        el('count-all').textContent = cats.all;
+        el('count-residential').textContent = cats.residential;
+        el('count-office').textContent = cats.office;
+        el('count-3d').textContent = cats['3d'];
+    }
+    updateCounts();
+
+    // -- Category Filter --
     const filterBtns = document.querySelectorAll('.filter-btn');
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
 
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -622,74 +599,213 @@
 
             const filter = btn.getAttribute('data-filter');
 
-            portfolioItems.forEach(item => {
-                const category = item.getAttribute('data-category');
-                if (filter === 'all' || category === filter) {
-                    gsap.to(item, {
-                        opacity: 1,
-                        scale: 1,
-                        duration: 0.6,
+            // Animate out all, then in matching
+            const bento = document.getElementById('portfolio-bento');
+
+            bentoItems.forEach(item => {
+                const cat = item.getAttribute('data-category');
+                const matches = filter === 'all' || cat === filter;
+
+                if (matches) {
+                    item.classList.remove('hidden');
+                    gsap.fromTo(item, {
+                        opacity: 0, scale: 0.93, y: 24
+                    }, {
+                        opacity: 1, scale: 1, y: 0,
+                        duration: 0.65,
                         ease: 'power3.out',
-                        onStart: () => { item.style.display = ''; }
+                        clearProps: 'all'
                     });
                 } else {
                     gsap.to(item, {
-                        opacity: 0,
-                        scale: 0.92,
-                        duration: 0.4,
+                        opacity: 0, scale: 0.9,
+                        duration: 0.35,
                         ease: 'power2.in',
-                        onComplete: () => { item.style.display = 'none'; }
+                        onComplete: () => item.classList.add('hidden')
                     });
                 }
             });
+
+            // Update visible items list for modal nav
+            setTimeout(() => {
+                visibleItems = bentoItems.filter(i => !i.classList.contains('hidden'));
+                const countEl = document.getElementById('visible-count');
+                if (countEl) countEl.textContent = visibleItems.length;
+            }, 500);
+        });
+    });
+
+    // -- GSAP Scroll Reveal for bento items --
+    gsap.set('.pb-item', { opacity: 0, y: 50, scale: 0.96 });
+    ScrollTrigger.create({
+        trigger: '#portfolio-bento',
+        start: 'top 75%',
+        once: true,
+        onEnter: () => {
+            gsap.to('.pb-item', {
+                opacity: 1, y: 0, scale: 1,
+                duration: 0.9,
+                stagger: { amount: 0.65, from: 'start' },
+                ease: 'power3.out'
+            });
+        }
+    });
+
+    // -- 3D Tilt Effect on Desktop --
+    if (window.matchMedia('(hover: hover)').matches) {
+        bentoItems.forEach(item => {
+            const inner = item.querySelector('.pbi-inner');
+
+            item.addEventListener('mousemove', (e) => {
+                const rect = item.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                gsap.to(inner, {
+                    rotationY: x * 10,
+                    rotationX: -y * 10,
+                    transformPerspective: 900,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                });
+            });
+
+            item.addEventListener('mouseleave', () => {
+                gsap.to(inner, {
+                    rotationY: 0, rotationX: 0,
+                    duration: 0.8,
+                    ease: 'power3.out'
+                });
+            });
+        });
+    }
+
+    // -- Subtle image parallax on scroll --
+    bentoItems.forEach(item => {
+        const img = item.querySelector('img');
+        if (!img) return;
+        gsap.to(img, {
+            yPercent: -12,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: item,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 2
+            }
         });
     });
 
     /* ============================================================
-       6. CINEMATIC PORTFOLIO MODAL
+       6. PREMIUM PORTFOLIO MODAL — prev/next navigation
        ============================================================ */
     const modal = document.getElementById('portfolio-modal');
     const modalImg = document.getElementById('modal-image');
-    const modalInfo = document.getElementById('modal-info');
+    const modalImgWrap = document.getElementById('modal-img-wrap');
+    const modalTag = document.getElementById('modal-tag');
+    const modalTitle = document.getElementById('modal-title');
+    const modalLoc = document.getElementById('modal-loc');
+    const modalCounter = document.getElementById('modal-counter');
     const modalClose = document.getElementById('modal-close');
+    const modalPrev = document.getElementById('modal-prev');
+    const modalNext = document.getElementById('modal-next');
 
-    function openModal(item) {
+    function populateModal(index) {
+        const item = visibleItems[index];
+        if (!item) return;
+
         const img = item.querySelector('img');
-        const title = item.querySelector('h3').textContent;
-        const location = item.querySelector('.portfolio-overlay p').textContent;
+        const title = item.getAttribute('data-title') || item.querySelector('h3')?.textContent || '';
+        const caption = item.getAttribute('data-caption') || item.querySelector('p')?.textContent || '';
+        const tag = item.getAttribute('data-tag') || item.querySelector('.pbi-tag')?.textContent || '';
 
-        modalImg.src = img.src;
-        modalImg.alt = img.alt;
-        modalInfo.innerHTML = `<h3>${title}</h3><p>${location}</p>`;
-        modal.classList.add('active');
-        lenis.stop();
+        // Animate out
+        modalImgWrap.classList.add('transitioning');
+
+        setTimeout(() => {
+            modalImg.src = img.src;
+            modalImg.alt = img.alt;
+            modalTag.textContent = tag;
+            modalTitle.textContent = title;
+            modalLoc.textContent = caption;
+            modalCounter.textContent = `${index + 1} / ${visibleItems.length}`;
+            modalImgWrap.classList.remove('transitioning');
+        }, 350);
     }
 
-    document.querySelectorAll('.portfolio-expand').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            openModal(btn.closest('.portfolio-item'));
-        });
-    });
+    function openModal(index) {
+        currentModalIndex = index;
+        // Instantly set (no transition needed on open)
+        const item = visibleItems[index];
+        const img = item.querySelector('img');
+        modalImg.src = img.src;
+        modalImg.alt = img.alt;
+        modalTag.textContent = item.getAttribute('data-tag') || '';
+        modalTitle.textContent = item.getAttribute('data-title') || '';
+        modalLoc.textContent = item.getAttribute('data-caption') || '';
+        modalCounter.textContent = `${index + 1} / ${visibleItems.length}`;
 
-    document.querySelectorAll('.portfolio-item').forEach(item => {
-        item.addEventListener('click', () => {
-            openModal(item);
-        });
-    });
+        modal.classList.add('active');
+        lenis.stop();
+        document.body.style.overflow = 'hidden';
+    }
 
     function closeModal() {
         modal.classList.remove('active');
         lenis.start();
+        document.body.style.overflow = '';
     }
 
+    function goNext() {
+        currentModalIndex = (currentModalIndex + 1) % visibleItems.length;
+        populateModal(currentModalIndex);
+    }
+
+    function goPrev() {
+        currentModalIndex = (currentModalIndex - 1 + visibleItems.length) % visibleItems.length;
+        populateModal(currentModalIndex);
+    }
+
+    // Bind open on item click
+    bentoItems.forEach((item) => {
+        item.addEventListener('click', () => {
+            visibleItems = bentoItems.filter(i => !i.classList.contains('hidden'));
+            const idx = visibleItems.indexOf(item);
+            if (idx !== -1) openModal(idx);
+        });
+
+        const expandBtn = item.querySelector('.pbi-expand');
+        if (expandBtn) {
+            expandBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                item.click();
+            });
+        }
+    });
+
     modalClose.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal || e.target.classList.contains('modal-backdrop')) closeModal();
-    });
+    document.getElementById('modal-backdrop').addEventListener('click', closeModal);
+    modalNext.addEventListener('click', goNext);
+    modalPrev.addEventListener('click', goPrev);
+
+    // Keyboard nav
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+        if (!modal.classList.contains('active')) return;
+        if (e.key === 'Escape') closeModal();
+        if (e.key === 'ArrowRight') goNext();
+        if (e.key === 'ArrowLeft') goPrev();
     });
+
+    // Touch/swipe support for modal
+    let touchStartXModal = 0;
+    modal.addEventListener('touchstart', (e) => { touchStartXModal = e.changedTouches[0].screenX; }, { passive: true });
+    modal.addEventListener('touchend', (e) => {
+        const diff = touchStartXModal - e.changedTouches[0].screenX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) goNext(); else goPrev();
+        }
+    }, { passive: true });
+
+
 
     /* ============================================================
        7. TESTIMONIALS CAROUSEL
