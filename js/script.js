@@ -157,22 +157,24 @@
     function initAnimations() {
 
         // ------ Tree Logo Growth (Scroll Drawing) ------
-        const treePath = document.querySelector('.nav-tree-path');
-        if (treePath) {
-            const pathLength = treePath.getTotalLength();
-            // Start fully hidden (offset = length)
-            gsap.set(treePath, { strokeDasharray: pathLength, strokeDashoffset: pathLength });
+        const treeBranches = document.querySelectorAll('.nav-logo .tree-branch');
+        if (treeBranches.length > 0) {
+            treeBranches.forEach(branch => {
+                const pathLength = branch.getTotalLength();
+                // Start fully hidden (offset = length)
+                gsap.set(branch, { strokeDasharray: pathLength, strokeDashoffset: pathLength });
 
-            // Animate offset to 0 as user scrolls down the entire page
-            gsap.to(treePath, {
-                strokeDashoffset: 0,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: document.body,
-                    start: 'top top',
-                    end: 'bottom bottom',
-                    scrub: 0.5
-                }
+                // Animate offset to 0 as user scrolls down the entire page
+                gsap.to(branch, {
+                    strokeDashoffset: 0,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: document.body,
+                        start: 'top top',
+                        end: 'bottom bottom',
+                        scrub: 0.5
+                    }
+                });
             });
         }
 
